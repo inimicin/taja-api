@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Account extends Model
+class Panduan extends Model
 {
     use HasFactory;
-    protected $fillable = ['password'];
-    public function panduans()
-    {
-        return $this->hasMany(Panduan::class);
+
+    public function account(){
+        return $this->belongsTo(Account::class);
     }
 }

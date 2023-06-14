@@ -8,16 +8,36 @@ use Illuminate\Support\Facades\Crypt;
 
 class AccountController extends Controller
 {
-    public function show(string $username) {
-        $accounts = Account::where('username', $username)->get();
+    // public function show(string $username) {
+    //     $accounts = Account::where('username', $username)->get();
         
-        if($accounts->count() > 0) {
-            $currentUser = $accounts[0];
+    //     if($accounts->count() > 0) {
+    //         $currentUser = $accounts[0];
+    //         return response()->json([
+    //             'status' => 200,
+    //             'message' => 'Success',
+    //             'data' => [
+    //                 'currentUser' => $currentUser,
+    //             ],
+    //         ]);
+    //     }
+
+    //     return response()->json([
+    //         'status' => 404,
+    //         'message' => 'Account Not Found',
+    //         'data' => [],
+    //     ]);
+    // }
+
+    public function show_by_id(int $id) {
+        $accounts = Account::find($id);
+        
+        if($accounts) {
             return response()->json([
                 'status' => 200,
                 'message' => 'Success',
                 'data' => [
-                    'currentUser' => $currentUser,
+                    'currentUser' => $accounts,
                 ],
             ]);
         }
@@ -70,6 +90,7 @@ class AccountController extends Controller
         $newAccount = new Account;
         $newAccount->username = $request->input('username');
         $newAccount->password = Crypt::encryptString($request->input('password'));
+        $newAccount->role = 'Farmer';
         $newAccount->save();
 
         $currentUser = Account::where('username', $request->input('username'))->get();
